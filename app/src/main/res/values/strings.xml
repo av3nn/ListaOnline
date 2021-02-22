@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lista Online</string>
+    <string name="button">Button</string>
+    <string name="textview">TextView</string>
+    <string name="name">Name</string>
+    <string name="digite_novo_item">Digite novo Item:</string>
+    <string name="novo_item">Novo Item</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="desistir">desistir</string>
+</resources>
