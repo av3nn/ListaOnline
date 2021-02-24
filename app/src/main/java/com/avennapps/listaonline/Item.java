@@ -1,6 +1,7 @@
 package com.avennapps.listaonline;
 
 public class Item {
-    String Conteudo;
-    Double Quantidade;
+    int ID;
+    String conteudo;
+    double quantidade;
 }

@@ -11,8 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> linhas = new ArrayList<String>();
     //LocalDateTime
-
 
     public void addItem(View v){
         ListView listView = findViewById(R.id.listView);
@@ -65,9 +69,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void atualiza(View v){
+    public void atualiza(View v) throws ExecutionException, InterruptedException, JSONException {
         Rest rest = new Rest();
         rest.execute();
+        JSONArray itemsRet = rest.get();
+
+        ListView lv = findViewById(R.id.listView);
+        linhas.clear();
+
+        for (int i = 0; i < itemsRet.length(); i++){
+            JSONObject obj = itemsRet.getJSONObject(i) ;
+            linhas.add(obj.get("qtd").toString() + "x " + obj.get("desc").toString());
+        }
+
+        ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_checked, linhas);
+        lv.setAdapter(adap);
+
+
+
+
     }
 
 }
