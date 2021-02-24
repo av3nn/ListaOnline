@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_checked, linhas);
         lv.setAdapter(adap);
 
-        // Comentarios
-
     }
 
 }
