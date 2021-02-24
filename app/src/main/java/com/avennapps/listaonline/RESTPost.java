@@ -2,51 +2,58 @@ package com.avennapps.listaonline;
 
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class RESTPost extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
 
         try {
+            Map<String,Object> params = new LinkedHashMap<>();
+            params.put("desc", "aaaaaa");
+            params.put("qtd", 5);
 
-            URL url = new URL("http://avenn.ddns.net:8181/create");
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String,Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            URL url = new URL("http://avenn.ddns.net:8181/create?desc=aaaa&qtd=5");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+            connection.setUseCaches(false);
             connection.setConnectTimeout(5000);
             connection.connect();
-            Reader reader = new InputStreamReader(url.openStream());
-            JSONObject json = new JSONObject();
+            int ss = connection.getResponseCode();
+            InputStream _is;
+            if (connection.getResponseCode() / 100 == 2) { // 2xx code means success
+                _is = connection.getInputStream();
+            } else {
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
+                _is = connection.getErrorStream();
 
-            String inputLine;
-            if ((inputLine = in.readLine()) != null)
-                System.out.println(inputLine);
-            //inputLine = inputLine.replace('"', '\"');
-            in.close();
-            itemsArray = new JSONArray(inputLine);
-            //itemsArray = new Gson().fromJson(inputLine, JSONArray.class);
-
+                String result = _is.toString();
+                System.out.println(ss + "  ---   " + result);
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        return itemsArray;
+        return null;
     }
 }

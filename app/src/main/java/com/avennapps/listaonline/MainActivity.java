@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_checked, linhas);
             listView.setAdapter(adap);
         }
+        RESTPost restPost = new RESTPost();
+        restPost.execute();
 
         escondeLayout(v);
     }
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject obj = itemsRet.getJSONObject(i) ;
             linhas.add(obj.get("qtd").toString() + "x " + obj.get("desc").toString());
             if (i == itemsRet.length()){
-                ultID = Integer.valueOf(obj.get("id").toString();
+                ultID = Integer.valueOf(obj.get("id").toString());
             }
         }
 
