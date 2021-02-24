@@ -1,4 +1,52 @@
 package com.avennapps.listaonline;
 
-public class RESTPost {
+import android.os.AsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class RESTPost extends AsyncTask<Void, Void, Void> {
+    @Override
+    protected Void doInBackground(Void... voids) {
+
+        try {
+
+            URL url = new URL("http://avenn.ddns.net:8181/create");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setConnectTimeout(5000);
+            connection.connect();
+            Reader reader = new InputStreamReader(url.openStream());
+            JSONObject json = new JSONObject();
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(url.openStream()));
+
+            String inputLine;
+            if ((inputLine = in.readLine()) != null)
+                System.out.println(inputLine);
+            //inputLine = inputLine.replace('"', '\"');
+            in.close();
+            itemsArray = new JSONArray(inputLine);
+            //itemsArray = new Gson().fromJson(inputLine, JSONArray.class);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return itemsArray;
+    }
 }

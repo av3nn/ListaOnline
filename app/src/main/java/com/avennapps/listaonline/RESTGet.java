@@ -22,7 +22,6 @@ public class RESTGet extends AsyncTask<Void, Void, JSONArray> {
 
         try {
 
-            StringBuilder resposta = new StringBuilder();
             URL url = new URL("http://avenn.ddns.net:8181/all");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
