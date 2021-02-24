@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class   Rest extends AsyncTask<Void, Void, JSONArray> {
+public class RESTGet extends AsyncTask<Void, Void, JSONArray> {
     @Override
     protected JSONArray doInBackground(Void... voids) {
         JSONArray itemsArray = null;

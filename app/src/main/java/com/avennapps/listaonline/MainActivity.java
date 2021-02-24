@@ -28,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<String> linhas = new ArrayList<String>();
-    //LocalDateTime
+    private int ultID;
 
     public void addItem(View v){
         ListView listView = findViewById(R.id.listView);
         EditText edtTexto = findViewById(R.id.edtTexto);
         final boolean add = linhas.add(String.valueOf(edtTexto.getText()));
         if (add) {
-            ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, linhas);
+            ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_checked, linhas);
             listView.setAdapter(adap);
         }
 
@@ -70,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void atualiza(View v) throws ExecutionException, InterruptedException, JSONException {
-        Rest rest = new Rest();
-        rest.execute();
-        JSONArray itemsRet = rest.get();
+        RESTGet restget = new RESTGet();
+        restget.execute();
+        JSONArray itemsRet = restget.get();
 
         ListView lv = findViewById(R.id.listView);
         linhas.clear();
@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < itemsRet.length(); i++){
             JSONObject obj = itemsRet.getJSONObject(i) ;
             linhas.add(obj.get("qtd").toString() + "x " + obj.get("desc").toString());
+            if (i == itemsRet.length()){
+                ultID = Integer.valueOf(obj.get("id").toString();
+            }
         }
 
         ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_checked, linhas);
